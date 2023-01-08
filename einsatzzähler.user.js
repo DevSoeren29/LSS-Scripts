@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Einsatzzähler
 // @namespace    http://tampermonkey.net/
-// @version      0.4.5
+// @version      0.4.8
 // @description  Zeigt an, wie viele Einsätze du insgesamt offen hast.
 // @author       Dev_Sören29#1385 aka. SJ_Luftpumpe
 // @match        https://www.operacni-stredisko.cz/*
@@ -50,6 +50,7 @@
     'use strict';
     const missionMakerAddOrig = unsafeWindow.missionMakerAdd;
     const foundtext = document.querySelector('.missions-panel-head.big_map_window_head strong');
+    foundtext.innerText += ': ';
 
     if (!foundtext) return;
 
@@ -93,7 +94,8 @@
 
         //main
         console.log(str1main + str2main + str3main);
-        foundtext.innerText += `: ${str1main + str2main + str3main}`;
+        const sptext = foundtext.innerText.split(':');
+        foundtext.innerText = sptext[0] + `${str1main + str2main + str3main}`;
     };
 
     unsafeWindow.missionMakerAdd = function (...args) {
