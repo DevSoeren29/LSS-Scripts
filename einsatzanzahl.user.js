@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Einsatz Anzahl
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.3.1
 // @description  Zeigt an, wie viele Einsätze du insgesamt offen hast.
 // @author       Dev_Sören29#1385 aka. SJ_Luftpumpe
 // @match        https://www.leitstellenspiel.de/
