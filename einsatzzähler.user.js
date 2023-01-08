@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Einsatzzähler
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.5.2.6
 // @description  Zeigt an, wie viele Einsätze du insgesamt offen hast.
 // @author       Dev_Sören29#1385 aka. SJ_Luftpumpe
 // @match        https://www.operacni-stredisko.cz/*
@@ -51,9 +51,25 @@
     const missionMakerAddOrig = unsafeWindow.missionMakerAdd;
     const missionDelOrig = unsafeWindow.missionDelete;
     const foundtext = document.querySelector('.missions-panel-head.big_map_window_head strong');
+    const einsatzbtns = document.querySelector('.missions-panel-head.big_map_window_head');
+    const searchbar = document.querySelector('#search_input_field_missions');
     foundtext.innerText += ': ';
 
     if (!foundtext) return;
+
+    var choosebtn = document.createElement("button");
+    choosebtn.textContent = 'Test';
+    const choosebutton = einsatzbtns.insertBefore(choosebtn, searchbar);
+    choosebutton.style.height = '22px';
+    choosebutton.style.display = 'inline-block';
+    choosebutton.style.border = '1px solid transparent';
+    choosebutton.style.padding = '1px 5px';
+    choosebutton.style.verticalAlign = 'middle';
+    choosebutton.style.backgroundColor = 'rgb(76, 174, 76)';
+    choosebutton.style.color = 'white';
+    choosebutton.style.borderRadius = '3px';
+    choosebutton.style.fontSize = '12px';
+    choosebutton.style.lineHeight = '1.5';
 
     const updateEinsatzzahl = () => {
         //class1
@@ -104,7 +120,7 @@
 
         updateEinsatzzahl();
     };
-    
+
     unsafeWindow.missionDelete = function (...args) {
         missionDelOrig(...args);
 
