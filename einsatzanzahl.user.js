@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Einsatz Anzahl
+// @name         Einsatzzähler
 // @namespace    http://tampermonkey.net/
 // @version      0.4.1
 // @description  Zeigt an, wie viele Einsätze du insgesamt offen hast.
