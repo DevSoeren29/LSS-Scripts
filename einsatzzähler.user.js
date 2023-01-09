@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Einsatzzähler
 // @namespace    http://tampermonkey.net/
-// @version      0.5.2.6
+// @version      0.6.1
 // @description  Zeigt an, wie viele Einsätze du insgesamt offen hast.
 // @author       Dev_Sören29#1385 aka. SJ_Luftpumpe
 // @match        https://www.operacni-stredisko.cz/*
@@ -58,18 +58,12 @@
     if (!foundtext) return;
 
     var choosebtn = document.createElement("button");
-    choosebtn.textContent = 'Test';
+    choosebtn.textContent = 'Verbandeinsätze/Verbandsevents zuschalten';
     const choosebutton = einsatzbtns.insertBefore(choosebtn, searchbar);
-    choosebutton.style.height = '22px';
-    choosebutton.style.display = 'inline-block';
-    choosebutton.style.border = '1px solid transparent';
-    choosebutton.style.padding = '1px 5px';
-    choosebutton.style.verticalAlign = 'middle';
-    choosebutton.style.backgroundColor = 'rgb(76, 174, 76)';
-    choosebutton.style.color = 'white';
-    choosebutton.style.borderRadius = '3px';
-    choosebutton.style.fontSize = '12px';
-    choosebutton.style.lineHeight = '1.5';
+    choosebutton.classList.add('btn');
+    choosebutton.classList.add('btn-xs');
+    choosebutton.classList.add('btn-danger');
+    let btnOn = false
 
     const updateEinsatzzahl = () => {
         //class1
@@ -109,10 +103,40 @@
             str3main = str3pi;
         }
 
+        //class4
+        let str4main = 0;
+        if (btnOn === true) {
+            const foundclass4 = document.querySelector(
+                '#mission_select_alliance'
+            );
+            if (foundclass4) {
+                const str4 = foundclass4.innerText;
+                const str4sp = str4.split('/');
+                const str4re = str4sp[1].replace(')', ' ');
+                const str4pi = parseInt(str4re);
+                str4main = str4pi;
+            }
+        }
+
+        //class5
+        let str5main = 0;
+        if (btnOn === true) {
+            const foundclass5 = document.querySelector(
+                '#mission_select_alliance_event'
+            );
+            if (foundclass5) {
+                const str5 = foundclass5.innerText;
+                const str5sp = str5.split('/');
+                const str5re = str5sp[1].replace(')', ' ');
+                const str5pi = parseInt(str5re);
+                str5main = str5pi;
+            }
+        }
+
         //main
         console.log(str1main + str2main + str3main);
         const sptext = foundtext.innerText.split(':');
-        foundtext.innerText = sptext[0] + ': ' + `${str1main + str2main + str3main}`;
+        foundtext.innerText = sptext[0] + ': ' + `${str1main + str2main + str3main + str4main + str5main}`;
     };
 
     unsafeWindow.missionMakerAdd = function (...args) {
@@ -126,6 +150,22 @@
 
         updateEinsatzzahl();
     };
+
+    choosebutton.addEventListener('click',function() {
+        if (btnOn === true) {
+            btnOn = false;
+            updateEinsatzzahl();
+            choosebutton.classList.remove('btn-success');
+            choosebutton.classList.add('btn-danger');
+            console.log(btnOn);
+        } else{
+            btnOn = true;
+            updateEinsatzzahl();
+            choosebutton.classList.remove('btn-danger');
+            choosebutton.classList.add('btn-success');
+            console.log(btnOn);
+        }
+    });
 
     updateEinsatzzahl();
 })();
